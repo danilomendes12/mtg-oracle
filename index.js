@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const auth = require('./auth.json');
 const client = new Discord.Client();
+const data = require('./data')
 
 client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -11,9 +12,15 @@ client.on('message', msg => {
     msg.reply('pong');
     msg.channel.send("Well Hello");
   }
+
   if(msg.content === '!signup') {
       console.log(`userId: ${msg.author.id}`);
       console.log(`name: ${msg.author.username}`);
+      data.createUser(msg.author.id, msg.author.username);
+  }
+
+  if(msg.content === '!login'){
+    const result = data.getUserById(msg.author.id);
   }
 });
 
