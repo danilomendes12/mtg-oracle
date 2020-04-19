@@ -3,6 +3,7 @@ const auth = require('./auth.json');
 const client = new Discord.Client();
 const data = require('./data')
 const scryfallClient = require('./scryfall-client');
+const responseUtil = require('./response-util')
 
 const prefix = 'mtg-oracle ';
 
@@ -10,7 +11,7 @@ client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).split(/ +/);
@@ -30,7 +31,10 @@ client.on('message', message => {
     if (!args.length) {
       return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
     }
-    scryfallClient.getCardByName(args[0]);
+    const response = await scryfallClient.getCardByName(args[0]);
+
+    if(response) message.channel.send(response);
+    else message.channel.send(responseUtil.notFoundMessage());
   }
 
 });
