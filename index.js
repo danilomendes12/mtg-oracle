@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const auth = require('./auth.json');
+const auth = require('./auth');
 const client = new Discord.Client();
 const data = require('./data')
 const scryfallClient = require('./scryfall-client');
@@ -17,15 +17,11 @@ client.on('message', async message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
   
-  if (command === 'ping') {
-    message.reply('Well Hello');
-  }
-
-  if(command === 'signup') {
-      console.log(`userId: ${msg.author.id}`);
-      console.log(`name: ${msg.author.username}`);
-      data.createUser(msg.author.id, msg.author.username);
-  }
+  // if(command === 'signup') {
+  //     console.log(`userId: ${msg.author.id}`);
+  //     console.log(`name: ${msg.author.username}`);
+  //     data.createUser(msg.author.id, msg.author.username);
+  // }
 
   if(command === 'search') {
     if (!args.length) {
