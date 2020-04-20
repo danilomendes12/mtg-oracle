@@ -1,6 +1,6 @@
 # mtg oracle
 
-Mtg oracle is a discord bot for magic the gathering players.
+Mtg oracle is a discord bot for Magic the Gathering players.
 
 ### Install
 To use the oracle at your discord server, authorize it [here](https://discordapp.com/oauth2/authorize?client_id=701266952051752991&scope=bot&permissions=3072).
