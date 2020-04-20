@@ -5,7 +5,7 @@ const data = require('./data')
 const scryfallClient = require('./scryfall-client');
 const responseUtil = require('./response-util')
 
-const prefix = 'mtg-oracle ';
+const prefix = '$oracle ';
 
 client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -31,7 +31,17 @@ client.on('message', async message => {
     if (!args.length) {
       return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
     }
-    const response = await scryfallClient.getCardByName(args[0]);
+    const response = await scryfallClient.getCardByExactName(args.join(' '));
+
+    if(response) message.channel.send(response);
+    else message.channel.send(responseUtil.notFoundMessage());
+  }
+
+  if(command === 'text'){
+    if (!args.length) {
+      return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+    }
+    const response = await scryfallClient.getCardNamesByText(args.join(' '));
 
     if(response) message.channel.send(response);
     else message.channel.send(responseUtil.notFoundMessage());
