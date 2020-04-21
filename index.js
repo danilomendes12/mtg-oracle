@@ -14,14 +14,10 @@ client.once('ready', () => {
 client.on('message', async message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+  console.log(`${message.author.username}: ${message.content}`);
+
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
-  
-  // if(command === 'signup') {
-  //     console.log(`userId: ${msg.author.id}`);
-  //     console.log(`name: ${msg.author.username}`);
-  //     data.createUser(msg.author.id, msg.author.username);
-  // }
 
   if(command === 'search') {
     if (!args.length) {
@@ -38,6 +34,16 @@ client.on('message', async message => {
       return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
     }
     const response = await scryfallClient.getCardNamesByText(args.join(' '));
+
+    if(response) message.channel.send(response);
+    else message.channel.send(responseUtil.notFoundMessage());
+  }
+
+  if(command === 'legality'){
+    if(!args.length){
+      return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+    }
+    const response = await scryfallClient.getCardLegalitiesByName(args.join(' '));
 
     if(response) message.channel.send(response);
     else message.channel.send(responseUtil.notFoundMessage());
